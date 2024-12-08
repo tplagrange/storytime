@@ -7,21 +7,26 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))
 
 from packages.listening_ears.speech_to_text import SpeechToText
 from packages.good_parts.scene_extraction import scene_from_text
+from packages.show_me_the_picture.illustrate import illustrate_from_prompt
 
-speech_duration=10
+speech_duration=30
 
-test_text="IN A HOLE IN THE GROUND there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it to sit down on or to eat: it was a hobbit-hole, and that means comfort."
+test_text="a photo of an astronaut riding a horse on mars"
 
 def main():
-    # print("Starting main application...")
-    # stt = SpeechToText(model_name="small")
-    # print(f"Speak now for the next {speech_duration} seconds...")
-    # text = stt.transcribe_live(duration=speech_duration)
-    # print("You said:", text)
+    print("Starting main application...")
+    stt = SpeechToText(model_name="small")
+    print(f"Speak now for the next {speech_duration} seconds...")
+    transcribed_text = stt.transcribe_live(duration=speech_duration)
+    print("You said:", transcribed_text)
 
-    print("{assing transcription to scene extraction")
-    scene_text = scene_from_text(test_text)
+    print("Passing transcription to scene extraction")
+    scene_text = scene_from_text(transcribed_text)
     print(f"Obtained the following scene: {scene_text}")
+
+    print("Passing scene description to illustration")
+    illustration = illustrate_from_prompt("A photo of a black and white cat by a fireplace")
+    illustration.save("illustration.png")
 
 if __name__ == "__main__":
     main()
